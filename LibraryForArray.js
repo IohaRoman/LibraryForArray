@@ -30,7 +30,6 @@
             arrayReturn[i] = arrayInput[i];
             i++;
         }
-
         return (arrayReturn);
     };
 
@@ -38,12 +37,40 @@
         var arrayReturn = [];
 
         for (var i = 0; i != arrayInput.length; i++) {
-            if(callback) {
                 arrayReturn[i] = callback(arrayInput[i]);
-            }
         }
         return arrayReturn;
     };
+
+    arrayLibrary.forEach= function (arrayInput, callback) {
+
+        for (var i = 0; i != arrayInput.length; i++) {
+            callback(arrayInput[i]);
+        }
+    };
+
+    arrayLibrary.filter= function (arrayInput, callback) {
+        var arrayReturn = [];
+
+        for (var i = 0; i != arrayInput.length; i++) {
+            if (callback(arrayInput[i])){
+                arrayReturn[i] = callback(arrayInput[i]);
+            }
+            else return ;
+        }
+        return arrayReturn;
+    };
+
+  /**
+    arrayLibrary.reduce= function (arrayInput, callback, x) {
+        var arrayReturn = [];
+
+        for (var i = 0; i != arrayInput.length; i++) {
+
+        }
+        return arrayReturn;
+    };
+  */
 
     return arrayLibrary;
 }());
