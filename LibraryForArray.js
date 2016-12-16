@@ -10,7 +10,7 @@
  * Все они, кроме forEach, будут возвращать тебе массив с результатом
  */
 
-var git = (function(){
+(function(){
     var myArrayLibrary = {};
 
     myArrayLibrary.take =function (arrayInput,number) {
@@ -30,17 +30,20 @@ var git = (function(){
             arrayReturn[i] = arrayInput[i];
             i++;
         }
+
         return (arrayReturn);
     };
 
     myArrayLibrary.map = function (arrayInput, callback) {
-        var arrayReturn = new Array(arrayInput.length);
-        var i = 0;
+        var arrayReturn = [];
 
-        while (i != arrayInput.length) {
-            arrayReturn[i] = callback(arrayInput[i]);
-        };
-        return arrayReturn();
-    }
+        for (var i = 0; i != arrayInput.length; i++) {
+            if(callback) {
+                arrayReturn[i] = callback(arrayInput[i]);
+            }
+        }
+        return arrayReturn;
+    };
+
     return myArrayLibrary;
 }());
