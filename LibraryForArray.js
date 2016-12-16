@@ -11,9 +11,9 @@
  */
 
 (function(){
-    var myArrayLibrary = {};
+    var arrayLibrary = {};
 
-    myArrayLibrary.take =function (arrayInput,number) {
+    arrayLibrary.take = function (arrayInput,number) {
         var arrayReturn = new Array(number);
 
         for (var i = 0; number != i; i++) {
@@ -22,7 +22,7 @@
         return (arrayReturn);
     };
 
-    myArrayLibrary.skip = function (arrayInput, number) {
+    arrayLibrary.skip = function (arrayInput, number) {
         var arrayReturn = new Array(number);
         var i = number;
 
@@ -34,7 +34,7 @@
         return (arrayReturn);
     };
 
-    myArrayLibrary.map = function (arrayInput, callback) {
+    arrayLibrary.map = function (arrayInput, callback) {
         var arrayReturn = [];
 
         for (var i = 0; i != arrayInput.length; i++) {
@@ -45,5 +45,5 @@
         return arrayReturn;
     };
 
-    return myArrayLibrary;
+    return arrayLibrary;
 }());
