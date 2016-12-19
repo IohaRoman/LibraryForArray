@@ -14,7 +14,7 @@
     var arrayLibrary = {};
 
     arrayLibrary.take = function (arrayInput,number) {
-        var arrayReturn = new Array(number);
+        var arrayReturn = [];
 
         for (var i = 0; number != i; i++) {
             arrayReturn[i] = arrayInput[i];
@@ -23,7 +23,7 @@
     };
 
     arrayLibrary.skip = function (arrayInput, number) {
-        var arrayReturn = new Array(number);
+        var arrayReturn = [];
         var i = number;
 
         while (i < arrayInput.length) {
@@ -61,16 +61,18 @@
         return arrayReturn;
     };
 
-  /**
-    arrayLibrary.reduce= function (arrayInput, callback, x) {
-        var arrayReturn = [];
+    arrayLibrary.reduce= function (arrayInput, callback, baseValue) {
+        var returnValue;
 
         for (var i = 0; i != arrayInput.length; i++) {
-
+            returnValue = callback(baseValue, arrayInput[i]);
+            if (i != 0) {
+                baseValue = arrayInput[i - 1];
+            }
         }
-        return arrayReturn;
+        return returnValue;
     };
-  */
+
 
     return arrayLibrary;
 }());
