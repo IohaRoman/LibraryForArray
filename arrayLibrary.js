@@ -11,68 +11,60 @@
  */
 
 (function(){
-    var arrayLibrary = {};
-
-    arrayLibrary.take = function (arrayInput,number) {
-        var arrayReturn = [];
-
-        for (var i = 0; number != i; i++) {
-            arrayReturn[i] = arrayInput[i];
-        }
-        return (arrayReturn);
-    };
-
-    arrayLibrary.skip = function (arrayInput, number) {
-        var arrayReturn = [];
-        var i = number;
-
-        while (i < arrayInput.length) {
-            arrayReturn[i] = arrayInput[i];
-            i++;
-        }
-        return (arrayReturn);
-    };
-
-    arrayLibrary.map = function (arrayInput, callback) {
-        var arrayReturn = [];
-
-        for (var i = 0; i != arrayInput.length; i++) {
-                arrayReturn[i] = callback(arrayInput[i]);
-        }
-        return arrayReturn;
-    };
-
-    arrayLibrary.forEach= function (arrayInput, callback) {
-
-        for (var i = 0; i != arrayInput.length; i++) {
-            callback(arrayInput[i]);
-        }
-    };
-
-    arrayLibrary.filter= function (arrayInput, callback) {
-        var arrayReturn = [];
-
-        for (var i = 0; i != arrayInput.length; i++) {
-            if (callback(arrayInput[i])){
-                arrayReturn[i] = callback(arrayInput[i]);
+    var app = {};
+    app.arrayLibrary = {
+        take: function (arrayInput, number) {
+            for (var i = 0; arrayInput.length - number != 0; i++) {
+                arrayInput.pop();
             }
-            else return ;
-        }
-        return arrayReturn;
-    };
+            return (arrayInput);
+        },
 
-    arrayLibrary.reduce= function (arrayInput, callback, baseValue) {
-        var returnValue;
-
-        for (var i = 0; i != arrayInput.length; i++) {
-            returnValue = callback(baseValue, arrayInput[i]);
-            if (i != 0) {
-                baseValue = arrayInput[i - 1];
+        skip: function (arrayInput, number) {
+            for (var i = 0; i != number; i++) {
+                arrayInput.shift();
             }
+            return arrayInput;
+        },
+
+        map: function (arrayInput, callback) {
+            var arrayReturn = [];
+            var j = 0;
+
+            for (var i = 0; i != arrayInput.length; i++) {
+                if (callback(arrayInput[i])){
+                    arrayReturn[j] = arrayInput[i];
+                    j++;
+                }
+            }
+            return arrayReturn;
+        },
+
+        forEach: function (arrayInput, callback) {
+            for (var i = 0; i != arrayInput.length; i++) {
+                callback(arrayInput[i]);
+            }
+        },
+
+        filter: function (arrayInput, callback) {
+            var arrayReturn = [];
+
+            for (var i = 0; i != arrayInput.length; i++) {
+                if (callback(arrayInput[i])) {
+                    arrayReturn.push(arrayInput[i]);
+                }
+            }
+            return arrayReturn;
+        },
+
+        reduce: function (arrayInput, callback, baseValue) {
+            var returnValue;
+
+            for (var i = 0; i != arrayInput.length; i++) {
+                returnValue = callback(arrayInput[i], baseValue);
+                baseValue = returnValue;
+            }
+            return returnValue;
         }
-        return returnValue;
     };
-
-
-    return arrayLibrary;
 }());
