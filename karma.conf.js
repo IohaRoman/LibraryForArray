@@ -3,6 +3,7 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
         browsers: ['Chrome'],
         files: [
+            { pattern: 'arrayLibrary.js'},
             '*.test.js'
         ]
     });

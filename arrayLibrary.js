@@ -10,21 +10,13 @@
  * Все они, кроме forEach, будут возвращать тебе массив с результатом
  */
 
-(function(){
-    var app = {};
-    app.arrayLibrary = {
+    var arrayLibrary = {
         take: function (arrayInput, number) {
-            for (var i = 0; arrayInput.length - number != 0; i++) {
-                arrayInput.pop();
-            }
-            return (arrayInput);
+            return arrayInput.splice(0, number, arrayInput);
         },
 
         skip: function (arrayInput, number) {
-            for (var i = 0; i != number; i++) {
-                arrayInput.shift();
-            }
-            return arrayInput;
+            return arrayInput.splice(number, arrayInput.length, arrayInput);
         },
 
         map: function (arrayInput, callback) {
@@ -42,7 +34,7 @@
 
         forEach: function (arrayInput, callback) {
             for (var i = 0; i != arrayInput.length; i++) {
-                callback(arrayInput[i]);
+                 callback(arrayInput[i]);
             }
         },
 
@@ -57,14 +49,13 @@
             return arrayReturn;
         },
 
-        reduce: function (arrayInput, callback, baseValue) {
+        reduce: function (arrayInput,  baseValue, callback) {
             var returnValue;
 
             for (var i = 0; i != arrayInput.length; i++) {
-                returnValue = callback(arrayInput[i], baseValue);
-                baseValue = returnValue;
+                 returnValue = callback(arrayInput[i], baseValue);
+                 baseValue = returnValue;
             }
             return returnValue;
         }
     };
-}());
