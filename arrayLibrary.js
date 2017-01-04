@@ -9,53 +9,50 @@
  *   reduce(array, callback, baseValue) - сам почитаешь, он посложнее
  * Все они, кроме forEach, будут возвращать тебе массив с результатом
  */
+var arrayLibrary = {
+    take: function (arrayInput, number) {
+        return arrayInput.splice(0, number, arrayInput);
+    },
 
-    var arrayLibrary = {
-        take: function (arrayInput, number) {
-            return arrayInput.splice(0, number, arrayInput);
-        },
+    skip: function (arrayInput, number) {
+        return arrayInput.splice(number, arrayInput.length, arrayInput);
+    },
 
-        skip: function (arrayInput, number) {
-            return arrayInput.splice(number, arrayInput.length, arrayInput);
-        },
+    map: function (arrayInput, callback) {
+        var result = [];
 
-        map: function (arrayInput, callback) {
-            var arrayReturn = [];
-            var j = 0;
-
-            for (var i = 0; i != arrayInput.length; i++) {
-                if (callback(arrayInput[i])){
-                    arrayReturn[j] = arrayInput[i];
-                    j++;
-                }
+        for (var i = 0; i < arrayInput.length; i++) {
+            if (callback(arrayInput[i])){
+                result.push(arrayInput[i]);
             }
-            return arrayReturn;
-        },
-
-        forEach: function (arrayInput, callback) {
-            for (var i = 0; i != arrayInput.length; i++) {
-                 callback(arrayInput[i]);
-            }
-        },
-
-        filter: function (arrayInput, callback) {
-            var arrayReturn = [];
-
-            for (var i = 0; i != arrayInput.length; i++) {
-                if (callback(arrayInput[i])) {
-                    arrayReturn.push(arrayInput[i]);
-                }
-            }
-            return arrayReturn;
-        },
-
-        reduce: function (arrayInput,  baseValue, callback) {
-            var returnValue;
-
-            for (var i = 0; i != arrayInput.length; i++) {
-                 returnValue = callback(arrayInput[i], baseValue);
-                 baseValue = returnValue;
-            }
-            return returnValue;
         }
-    };
+        return result;
+    },
+
+    forEach: function (arrayInput, callback) {
+        for (var i = 0; i < arrayInput.length; i++) {
+            callback(arrayInput[i]);
+        }
+    },
+
+    filter: function (arrayInput, callback) {
+        var result = [];
+
+        for (var i = 0; i < arrayInput.length; i++) {
+            if (callback(arrayInput[i])) {
+                result.push(arrayInput[i]);
+            }
+        }
+        return result;
+    },
+
+    reduce: function (arrayInput,  baseValue, callback) {
+        var returnValue;
+
+        for (var i = 0; i < arrayInput.length; i++) {
+            returnValue = callback(arrayInput[i], baseValue);
+            baseValue = returnValue;
+        }
+        return returnValue;
+    }
+};
