@@ -8,51 +8,91 @@
  например filter([1,2,3], function(x) {return x > 1}) вернет [2,3]
  *   reduce(array, callback, baseValue) - сам почитаешь, он посложнее
  * Все они, кроме forEach, будут возвращать тебе массив с результатом
+ * -//-//-//-//-
+ * чтобы можно было сделать arrayLib.chain(arr).take(5).skip(3).map(function(x) {return x*5;}).value()+
+ * но и чтобы можно было сделать и как раньше, типа arrayLib.take(arr, 5)-
  */
-var arrayLibrary = {
-    take: function (arrayInput, number) {
-        return arrayInput.splice(0, number, arrayInput);
-    },
 
-    skip: function (arrayInput, number) {
-        return arrayInput.splice(number, arrayInput.length, arrayInput);
-    },
+var arrayLibrary = function () {
 
-    map: function (arrayInput, callback) {
+    var take = function (number) {
+
+        this.arrayInput = this.arrayInput.splice(0, number, this.arrayInput);
+
+        return this;
+    };
+
+    var skip = function (number) {
+
+        this.arrayInput = this.arrayInput.splice(number, this.arrayInput.length, this.arrayInput);
+
+        return this;
+    };
+
+    var map = function (callback) {
         var result = [];
 
-        for (var i = 0; i < arrayInput.length; i++) {
-            if (callback(arrayInput[i])){
-                result.push(arrayInput[i]);
+        for (var i = 0; i < this.arrayInput.length; i++) {
+            if (callback(this.arrayInput[i])) {
+                result.push(this.arrayInput[i]);
             }
         }
-        return result;
-    },
+        this.arrayInput = result;
 
-    forEach: function (arrayInput, callback) {
-        for (var i = 0; i < arrayInput.length; i++) {
-            callback(arrayInput[i]);
+        return this;
+    };
+
+    var forEach = function (callback) {
+
+        for (var i = 0; i < this.arrayInput.length; i++) {
+            callback(this.arrayInput[i]);
         }
-    },
+        return this;
+    };
 
-    filter: function (arrayInput, callback) {
+    var filter = function (callback) {
         var result = [];
 
-        for (var i = 0; i < arrayInput.length; i++) {
-            if (callback(arrayInput[i])) {
-                result.push(arrayInput[i]);
+        for (var i = 0; i < this.arrayInput.length; i++) {
+            if (callback(this.arrayInput[i])) {
+                result.push(this.arrayInput[i]);
             }
         }
-        return result;
-    },
+        this.arrayInput = result;
 
-    reduce: function (arrayInput,  baseValue, callback) {
-        var returnValue;
+        return this;
+    };
 
-        for (var i = 0; i < arrayInput.length; i++) {
-            returnValue = callback(arrayInput[i], baseValue);
-            baseValue = returnValue;
+    var reduce = function (baseValue, callback) {
+
+        var returnValue = this.returnValue;
+
+        for (var i = 0; i < this.arrayInput.length; i++) {
+            returnValue = callback(this.arrayInput[i], baseValue);
+            baseValue = this.returnValue;
         }
-        return returnValue;
-    }
+        this.arrayInput = returnValue;
+
+        return this;
+    };
+
+    var chain = function (arrayInput) {
+
+        this.arrayInput = arrayInput;
+
+        return this;
+    };
+
+    var value = function () {
+
+        console.log(this.arrayInput);
+
+        return this;
+    };
+
+    return {take:take, skip:skip, map:map, filter:filter, forEach:forEach, reduce:reduce, chain:chain, value:value};
 };
+
+arrayLibrary().chain([1, 2, 3, 4, 5, 6, 7]).skip(4).take(2).map(function (x) {return x < 6;}).value();
+
+
