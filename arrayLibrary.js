@@ -13,86 +13,142 @@
  * но и чтобы можно было сделать и как раньше, типа arrayLib.take(arr, 5)-
  */
 
-var arrayLibrary = function () {
+var arrayLibrary = {
 
-    var take = function (number) {
+    take: function (arrayInput,number) {
 
-        this.arrayInput = this.arrayInput.splice(0, number, this.arrayInput);
+        if(arrayInput instanceof Array){
 
-        return this;
-    };
+            return arrayInput.splice(0, number, arrayInput);
+        }
 
-    var skip = function (number) {
+        else {
+            number = arrayInput;
+            this.arrayInput = this.arrayInput.splice(0, number, this.arrayInput);
 
-        this.arrayInput = this.arrayInput.splice(number, this.arrayInput.length, this.arrayInput);
+            return this;
+        }
+    },
 
-        return this;
-    };
+    skip: function (arrayInput, number) {
+        if(arrayInput instanceof Array){
 
-    var map = function (callback) {
+            return arrayInput.splice(number, arrayInput.length, arrayInput);
+        }
+
+        else {
+            number = arrayInput;
+            this.arrayInput = this.arrayInput.splice(number, this.arrayInput.length, this.arrayInput);
+
+            return this;
+        }
+
+
+    },
+
+    map: function (arrayInput, callback) {
         var result = [];
 
-        for (var i = 0; i < this.arrayInput.length; i++) {
-            if (callback(this.arrayInput[i])) {
-                result.push(this.arrayInput[i]);
+        if (arrayInput instanceof Array) {
+            for (var i = 0; i < arrayInput.length; i++) {
+                if (callback(arrayInput[i])){
+                    result.push(arrayInput[i]);
+                }
+            }
+            return result;
+        }
+        else {
+            callback = arrayInput;
+            for (var i = 0; i < this.arrayInput.length; i++) {
+                if (callback(this.arrayInput[i])) {
+                    result.push(this.arrayInput[i]);
+                }
+            }
+            this.arrayInput = result;
+
+            return this;
+        }
+    },
+
+    forEach: function (arrayInput, callback) {
+
+        if (arrayInput instanceof Array) {
+            for (var i = 0; i < arrayInput.length; i++) {
+                callback(arrayInput[i]);
             }
         }
-        this.arrayInput = result;
-
-        return this;
-    };
-
-    var forEach = function (callback) {
-
-        for (var i = 0; i < this.arrayInput.length; i++) {
-            callback(this.arrayInput[i]);
+        else{
+             callback = arrayInput;
+             for (var i = 0; i < this.arrayInput.length; i++) {
+                 callback(this.arrayInput[i]);
+             }
+             return this;
         }
-        return this;
-    };
 
-    var filter = function (callback) {
+    },
+
+    filter: function (arrayInput, callback) {
         var result = [];
 
-        for (var i = 0; i < this.arrayInput.length; i++) {
-            if (callback(this.arrayInput[i])) {
-                result.push(this.arrayInput[i]);
+        if (arrayInput instanceof Array) {
+            for (var i = 0; i < arrayInput.length; i++) {
+                if (callback(arrayInput[i])) {
+                    result.push(arrayInput[i]);
+                }
             }
+            return result;
         }
-        this.arrayInput = result;
+        else {
+            callback = arrayInput;
+            for (var i = 0; i < this.arrayInput.length; i++) {
+                if (callback(this.arrayInput[i])) {
+                    result.push(this.arrayInput[i]);
+                }
+            }
+            this.arrayInput = result;
 
-        return this;
-    };
-
-    var reduce = function (baseValue, callback) {
-
-        var returnValue = this.returnValue;
-
-        for (var i = 0; i < this.arrayInput.length; i++) {
-            returnValue = callback(this.arrayInput[i], baseValue);
-            baseValue = this.returnValue;
+            return this;
         }
-        this.arrayInput = returnValue;
+    },
 
-        return this;
-    };
+    reduce: function (arrayInput, baseValue, callback) {
+        var returnValue;
+        if (arrayInput instanceof Array) {
+            for (var i = 0; i < arrayInput.length; i++) {
+                returnValue = callback(arrayInput[i], baseValue);
+                baseValue = returnValue;
+            }
+            return returnValue;
+        }
+        else {
+            callback = baseValue;
+            baseValue = arrayInput;
+            for (var i = 0; i < this.arrayInput.length; i++) {
+                returnValue = callback(this.arrayInput[i], baseValue);
+                baseValue = returnValue;
+            }
+            this.arrayInput = returnValue;
 
-    var chain = function (arrayInput) {
+            return this;
+        }
+    },
+
+    chain: function (arrayInput) {
 
         this.arrayInput = arrayInput;
 
         return this;
-    };
+    },
 
-    var value = function () {
+    value: function () {
 
         console.log(this.arrayInput);
 
         return this;
-    };
+    }
 
-    return {take:take, skip:skip, map:map, filter:filter, forEach:forEach, reduce:reduce, chain:chain, value:value};
 };
 
-arrayLibrary().chain([1, 2, 3, 4, 5, 6, 7]).skip(4).take(2).map(function (x) {return x < 6;}).value();
+
 
 

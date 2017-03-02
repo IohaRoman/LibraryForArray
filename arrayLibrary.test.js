@@ -24,4 +24,5 @@ describe("Library testing methods (arrayLibrary.js)", function () {
            return previousValue + baseValue;
        })).toBeCloseTo(15);
     });
+
 });
