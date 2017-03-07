@@ -9,56 +9,31 @@
  *   reduce(array, callback, baseValue) - сам почитаешь, он посложнее
  * Все они, кроме forEach, будут возвращать тебе массив с результатом
  * -//-//-//-//-
- * чтобы можно было сделать arrayLib.chain(arr).take(5).skip(3).map(function(x) {return x*5;}).value()+
- * но и чтобы можно было сделать и как раньше, типа arrayLib.take(arr, 5)-
+ * чтобы можно было сделать arrayLib.chain(arr).take(5).skip(3).map(function(x) {return x*5;}).value()
+ * но и чтобы можно было сделать и как раньше, типа arrayLib.take(arr, 5)
  */
 
 var arrayLibrary = {
+    arrayInput: [],
+    number: 0,
 
-    take: function (arrayInput,number) {
+    take: function (arrayInput, number) {
 
-        if(arrayInput instanceof Array){
+        this.arrayInput = arrayInput.splice(0, number, this.arrayInput);
 
-            return arrayInput.splice(0, number, arrayInput);
-        }
-
-        else {
-            number = arrayInput;
-            this.arrayInput = this.arrayInput.splice(0, number, this.arrayInput);
-
-            return this;
-        }
+        return this;
     },
 
     skip: function (arrayInput, number) {
-        if(arrayInput instanceof Array){
 
-            return arrayInput.splice(number, arrayInput.length, arrayInput);
-        }
-
-        else {
-            number = arrayInput;
             this.arrayInput = this.arrayInput.splice(number, this.arrayInput.length, this.arrayInput);
 
-            return this;
-        }
-
-
+        return this;
     },
 
     map: function (arrayInput, callback) {
         var result = [];
 
-        if (arrayInput instanceof Array) {
-            for (var i = 0; i < arrayInput.length; i++) {
-                if (callback(arrayInput[i])){
-                    result.push(arrayInput[i]);
-                }
-            }
-            return result;
-        }
-        else {
-            callback = arrayInput;
             for (var i = 0; i < this.arrayInput.length; i++) {
                 if (callback(this.arrayInput[i])) {
                     result.push(this.arrayInput[i]);
@@ -66,40 +41,20 @@ var arrayLibrary = {
             }
             this.arrayInput = result;
 
-            return this;
-        }
+        return this;
     },
 
     forEach: function (arrayInput, callback) {
 
-        if (arrayInput instanceof Array) {
-            for (var i = 0; i < arrayInput.length; i++) {
-                callback(arrayInput[i]);
-            }
-        }
-        else{
-             callback = arrayInput;
-             for (var i = 0; i < this.arrayInput.length; i++) {
-                 callback(this.arrayInput[i]);
-             }
-             return this;
+        for (var i = 0; i < this.arrayInput.length; i++) {
+            callback(this.arrayInput[i]);
         }
 
+        return this;
     },
 
     filter: function (arrayInput, callback) {
-        var result = [];
 
-        if (arrayInput instanceof Array) {
-            for (var i = 0; i < arrayInput.length; i++) {
-                if (callback(arrayInput[i])) {
-                    result.push(arrayInput[i]);
-                }
-            }
-            return result;
-        }
-        else {
-            callback = arrayInput;
             for (var i = 0; i < this.arrayInput.length; i++) {
                 if (callback(this.arrayInput[i])) {
                     result.push(this.arrayInput[i]);
@@ -108,34 +63,24 @@ var arrayLibrary = {
             this.arrayInput = result;
 
             return this;
-        }
     },
 
     reduce: function (arrayInput, baseValue, callback) {
         var returnValue;
-        if (arrayInput instanceof Array) {
-            for (var i = 0; i < arrayInput.length; i++) {
-                returnValue = callback(arrayInput[i], baseValue);
-                baseValue = returnValue;
-            }
-            return returnValue;
-        }
-        else {
-            callback = baseValue;
-            baseValue = arrayInput;
+
             for (var i = 0; i < this.arrayInput.length; i++) {
                 returnValue = callback(this.arrayInput[i], baseValue);
                 baseValue = returnValue;
             }
             this.arrayInput = returnValue;
 
-            return this;
-        }
+        return this;
     },
 
     chain: function (arrayInput) {
 
         this.arrayInput = arrayInput;
+        arrayLibrary.take.apply(arrayInput,[this.arrayInput]);
 
         return this;
     },
@@ -149,6 +94,5 @@ var arrayLibrary = {
 
 };
 
-
-
+arrayLibrary.chain([1, 2, 3, 4]).take(3).value();
 
