@@ -14,21 +14,17 @@
  */
 
 var arrayLibrary = {
-    arrayInput: [],
+    arrayInput : [],
     number: 0,
 
-    take: function (arrayInput, number) {
+    take: function take (arrayInput, number) {
 
-        this.arrayInput = arrayInput.splice(0, number, this.arrayInput);
-
-        return this;
+        return arrayInput.splice(0, number, arrayInput);
     },
 
     skip: function (arrayInput, number) {
 
-            this.arrayInput = this.arrayInput.splice(number, this.arrayInput.length, this.arrayInput);
-
-        return this;
+        return arrayInput.splice(number, arrayInput.length, arrayInput);
     },
 
     map: function (arrayInput, callback) {
@@ -45,7 +41,6 @@ var arrayLibrary = {
     },
 
     forEach: function (arrayInput, callback) {
-
         for (var i = 0; i < this.arrayInput.length; i++) {
             callback(this.arrayInput[i]);
         }
@@ -54,7 +49,6 @@ var arrayLibrary = {
     },
 
     filter: function (arrayInput, callback) {
-
             for (var i = 0; i < this.arrayInput.length; i++) {
                 if (callback(this.arrayInput[i])) {
                     result.push(this.arrayInput[i]);
@@ -77,22 +71,24 @@ var arrayLibrary = {
         return this;
     },
 
-    chain: function (arrayInput) {
+    chain: function chain (arrayInput) {
 
-        this.arrayInput = arrayInput;
-        arrayLibrary.take.apply(arrayInput,[this.arrayInput]);
+        return {
+            take: function take (number) {
+               arrayLibrary.take.call(this.take,arrayInput, number);
 
-        return this;
-    },
+               return this;
+            },
+            skip: function skip(number) {
+                arrayLibrary.take.skip(this.skip,arrayInput, number);
 
-    value: function () {
-
-        console.log(this.arrayInput);
-
-        return this;
+                return this;
+            },
+            value: function value() {
+                console.log(arrayInput);
+            }
+        }
     }
-
 };
 
-arrayLibrary.chain([1, 2, 3, 4]).take(3).value();
-
+arrayLibrary.chain([1, 2, 4, 5]).take(3).value();
