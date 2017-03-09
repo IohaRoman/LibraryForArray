@@ -14,8 +14,6 @@
  */
 
 var arrayLibrary = {
-    arrayInput : [],
-    number: 0,
 
     take: function take (arrayInput, number) {
 
@@ -30,65 +28,69 @@ var arrayLibrary = {
     map: function (arrayInput, callback) {
         var result = [];
 
-            for (var i = 0; i < this.arrayInput.length; i++) {
-                if (callback(this.arrayInput[i])) {
-                    result.push(this.arrayInput[i]);
+            for (var i = 0; i < arrayInput.length; i++) {
+                if (callback(arrayInput[i])) {
+                    result.push(arrayInput[i]);
                 }
             }
-            this.arrayInput = result;
 
-        return this;
+        return result;
     },
 
     forEach: function (arrayInput, callback) {
-        for (var i = 0; i < this.arrayInput.length; i++) {
-            callback(this.arrayInput[i]);
+        for (var i = 0; i < arrayInput.length; i++) {
+            callback(arrayInput[i]);
         }
-
-        return this;
     },
 
     filter: function (arrayInput, callback) {
-            for (var i = 0; i < this.arrayInput.length; i++) {
-                if (callback(this.arrayInput[i])) {
-                    result.push(this.arrayInput[i]);
+        var result = [];
+
+            for (var i = 0; i < arrayInput.length; i++) {
+                if (callback(arrayInput[i])) {
+                    result.push(arrayInput[i]);
                 }
             }
-            this.arrayInput = result;
 
-            return this;
+            return result;
     },
 
     reduce: function (arrayInput, baseValue, callback) {
-        var returnValue;
+        var result;
 
-            for (var i = 0; i < this.arrayInput.length; i++) {
-                returnValue = callback(this.arrayInput[i], baseValue);
-                baseValue = returnValue;
+            for (var i = 0; i < arrayInput.length; i++) {
+                result = callback(arrayInput[i], baseValue);
+                baseValue = result;
             }
-            this.arrayInput = returnValue;
 
-        return this;
+        return result;
     },
 
     chain: function chain (arrayInput) {
 
         return {
             take: function take (number) {
-               arrayLibrary.take.call(this.take,arrayInput, number);
+                arrayLibrary.take.call(this.take,arrayInput,number);
 
-               return this;
+               return this.take;
             },
+
             skip: function skip(number) {
-                arrayLibrary.take.skip(this.skip,arrayInput, number);
+                arrayLibrary.skip.call(this.skip,arrayInput, number);
 
-                return this;
+                return this.skip;
             },
+
+            map: function map(callback) {
+               arrayLibrary.map.call(this.map,arrayInput,callback);
+
+                return this.map;
+            },
+
             value: function value() {
-                console.log(arrayInput);
+                console.log(this);
             }
         }
     }
 };
 
-arrayLibrary.chain([1, 2, 4, 5]).take(3).value();

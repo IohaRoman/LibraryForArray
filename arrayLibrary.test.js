@@ -13,7 +13,7 @@ describe("Library testing methods (arrayLibrary.js)", function () {
         })).toEqual([1, 2, 3]);
     });
 
-    it("filtering through the array function (Filter)", function () {
+    it("filtering through the array function (filter)", function () {
        expect(arrayLibrary.filter([1, 2, 3, 4, 5], function (x) {
            return x > 2;
        })).toEqual([3, 4, 5]);
@@ -23,6 +23,20 @@ describe("Library testing methods (arrayLibrary.js)", function () {
        expect(arrayLibrary.reduce([1, 2, 3, 4, 5], 0, function (previousValue, baseValue) {
            return previousValue + baseValue;
        })).toBeCloseTo(15);
+    });
+
+    it("results of chain with (chain.take)", function () {
+        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).take(3).value()).toEqual([1, 2, 3]);
+        });
+
+    it("results of chain with (chain.skip)", function () {
+        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).skip(3).value()).toEqual([4, 5]);
+    });
+
+    it("results of chain with (chain.map)", function () {
+        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).map(function (x) {
+            return x < 3;
+        }).value()).toEqual([1, 2]);
     });
 
 });
