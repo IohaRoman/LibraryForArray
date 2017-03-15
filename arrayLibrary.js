@@ -83,7 +83,7 @@ var arrayLibrary = {
             },
 
             value: function value() {
-                console.log(result);
+                return result;
             }
         }
     }
