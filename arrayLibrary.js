@@ -67,30 +67,24 @@ var arrayLibrary = {
     },
 
     chain: function chain (arrayInput) {
+        var result = arrayInput;
 
         return {
             take: function take (number) {
-                arrayLibrary.take.call(this.take,arrayInput,number);
-
-               return this.take;
+               return arrayLibrary.chain(arrayLibrary.take.call(this.take,arrayInput,number));
             },
 
             skip: function skip(number) {
-                arrayLibrary.skip.call(this.skip,arrayInput, number);
-
-                return this.skip;
+                return arrayLibrary.chain(arrayLibrary.skip.call(this.skip,arrayInput, number));
             },
 
             map: function map(callback) {
-               arrayLibrary.map.call(this.map,arrayInput,callback);
-
-                return this.map;
+                return arrayLibrary.chain(arrayLibrary.map.call(this.map,arrayInput,callback));
             },
 
             value: function value() {
-                console.log(this);
+                console.log(result);
             }
         }
     }
 };
-

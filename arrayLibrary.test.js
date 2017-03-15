@@ -25,18 +25,18 @@ describe("Library testing methods (arrayLibrary.js)", function () {
        })).toBeCloseTo(15);
     });
 
-    it("results of chain with (chain.take)", function () {
+    it("result of chain with (chain.take)", function () {
         expect(arrayLibrary.chain([1, 2, 3, 4, 5]).take(3).value()).toEqual([1, 2, 3]);
-        });
-
-    it("results of chain with (chain.skip)", function () {
-        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).skip(3).value()).toEqual([4, 5]);
     });
 
-    it("results of chain with (chain.map)", function () {
-        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).map(function (x) {
-            return x < 3;
-        }).value()).toEqual([1, 2]);
+    it("result of chain with (chain.take.skip)", function () {
+        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).take(3).skip(2).value()).toEqual([3]);
+    });
+
+    it("result of chain with (chain.take.skip.map)", function () {
+        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).take(3).skip(1).map(function (x) {
+            return x < 5;
+        }).value()).toEqual([2, 3]);
     });
 
 });
