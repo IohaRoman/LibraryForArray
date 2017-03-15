@@ -14,15 +14,12 @@
  */
 
 var arrayLibrary = {
-
     take: function take (arrayInput, number) {
-
-        return arrayInput.splice(0, number, arrayInput);
+        return arrayInput.splice(0, number);
     },
 
     skip: function (arrayInput, number) {
-
-        return arrayInput.splice(number, arrayInput.length, arrayInput);
+        return arrayInput.splice(number, arrayInput.length);
     },
 
     map: function (arrayInput, callback) {
@@ -71,18 +68,18 @@ var arrayLibrary = {
 
         return {
             take: function take (number) {
-               return arrayLibrary.chain(arrayLibrary.take.call(this.take,arrayInput,number));
+               return chain(arrayLibrary.take.call(this.take, arrayInput, number) );
             },
 
-            skip: function skip(number) {
-                return arrayLibrary.chain(arrayLibrary.skip.call(this.skip,arrayInput, number));
+            skip: function skip (number) {
+                return chain(arrayLibrary.skip.call(this.skip, arrayInput, number) );
             },
 
-            map: function map(callback) {
-                return arrayLibrary.chain(arrayLibrary.map.call(this.map,arrayInput,callback));
+            map: function map (callback) {
+                return chain(arrayLibrary.map.call(this.map, arrayInput, callback) );
             },
 
-            value: function value() {
+            value: function value () {
                 return result;
             }
         }
