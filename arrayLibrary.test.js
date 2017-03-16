@@ -39,4 +39,11 @@ describe("Library testing methods (arrayLibrary.js)", function () {
         }).value()).toEqual([2, 3]);
     });
 
+    it("result of chain with (chain.filter.reduce)", function () {
+        expect(arrayLibrary.chain([1, 2, 3, 4, 5]).filter(function (x) {
+            return x > 2;
+        }).reduce(0, function (previousValue, baseValue) {
+            return previousValue + baseValue;
+        }).value()).toEqual(12);
+    });
 });

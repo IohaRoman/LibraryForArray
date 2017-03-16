@@ -14,7 +14,8 @@
  */
 
 var arrayLibrary = {
-    take: function take (arrayInput, number) {
+
+    take: function (arrayInput, number) {
         return arrayInput.splice(0, number);
     },
 
@@ -25,11 +26,11 @@ var arrayLibrary = {
     map: function (arrayInput, callback) {
         var result = [];
 
-            for (var i = 0; i < arrayInput.length; i++) {
-                if (callback(arrayInput[i])) {
-                    result.push(arrayInput[i]);
-                }
+        for (var i = 0; i < arrayInput.length; i++) {
+            if (callback(arrayInput[i]) ) {
+                result.push(arrayInput[i]);
             }
+        }
 
         return result;
     },
@@ -63,27 +64,31 @@ var arrayLibrary = {
         return result;
     },
 
-    chain: function chain (arrayInput) {
+    chain: function chain(arrayInput) {
         var result = arrayInput;
 
-        function comeon(take, skip, map, value) {
-            chain(this.take.call(this.take, arrayInput, number))
-        }
-
         return {
-            take: function (number) {
-                return this.take;
+            take: function take(number) {
+                return chain(arrayLibrary.take.call(this.take, arrayInput, number) );
             },
 
-            skip: function skip (number) {
+            skip: function skip(number) {
                 return chain(arrayLibrary.skip.call(this.skip, arrayInput, number) );
             },
 
-            map: function map (callback) {
+            map: function map(callback) {
                 return chain(arrayLibrary.map.call(this.map, arrayInput, callback) );
             },
 
-            value: function value () {
+            filter: function filter(callback) {
+                return chain(arrayLibrary.filter.call(this.filter, arrayInput, callback) );
+            },
+
+            reduce: function reduce(baseValue, callback) {
+                return chain(arrayLibrary.reduce.call(this.filter, arrayInput, baseValue, callback) );
+            },
+
+            value: function value() {
                 return result;
             }
         }
