@@ -43,22 +43,22 @@ var arrayLibrary = {
     filter: function (arrayInput, callback) {
         var result = [];
 
-            for (var i = 0; i < arrayInput.length; i++) {
-                if (callback(arrayInput[i])) {
-                    result.push(arrayInput[i]);
-                }
+        for (var i = 0; i < arrayInput.length; i++) {
+            if (callback(arrayInput[i])) {
+                result.push(arrayInput[i]);
             }
+        }
 
-            return result;
+        return result;
     },
 
     reduce: function (arrayInput, baseValue, callback) {
         var result;
 
-            for (var i = 0; i < arrayInput.length; i++) {
-                result = callback(arrayInput[i], baseValue);
-                baseValue = result;
-            }
+        for (var i = 0; i < arrayInput.length; i++) {
+            result = callback(arrayInput[i], baseValue);
+            baseValue = result;
+        }
 
         return result;
     },
@@ -66,9 +66,13 @@ var arrayLibrary = {
     chain: function chain (arrayInput) {
         var result = arrayInput;
 
+        function comeon(take, skip, map, value) {
+            chain(this.take.call(this.take, arrayInput, number))
+        }
+
         return {
-            take: function take (number) {
-               return chain(arrayLibrary.take.call(this.take, arrayInput, number) );
+            take: function (number) {
+                return this.take;
             },
 
             skip: function skip (number) {
