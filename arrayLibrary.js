@@ -66,26 +66,31 @@ var arrayLibrary = {
 
     chain: function chain(arrayInput) {
         var result = arrayInput;
+        var me = this;
 
         return {
             take: function take(number) {
-                return chain(arrayLibrary.take.call(this.take, arrayInput, number) );
+                return me.chain(me.take.call(this.take, arrayInput, number) );
             },
 
             skip: function skip(number) {
-                return chain(arrayLibrary.skip.call(this.skip, arrayInput, number) );
+                return me.chain(me.skip.call(this.skip, arrayInput, number) );
             },
 
             map: function map(callback) {
-                return chain(arrayLibrary.map.call(this.map, arrayInput, callback) );
+                return me.chain(me.map.call(this.map, arrayInput, callback) );
+            },
+
+            forEach: function forEach(callback) {
+                return me.chain(me.forEach.call(this.forEach, callback) );
             },
 
             filter: function filter(callback) {
-                return chain(arrayLibrary.filter.call(this.filter, arrayInput, callback) );
+                return me.chain(me.filter.call(this.filter, arrayInput, callback) );
             },
 
             reduce: function reduce(baseValue, callback) {
-                return chain(arrayLibrary.reduce.call(this.filter, arrayInput, baseValue, callback) );
+                return me.chain(me.reduce.call(this.filter, arrayInput, baseValue, callback) );
             },
 
             value: function value() {
