@@ -68,11 +68,18 @@ var arrayLibrary = {
         var result = arrayInput;
         var me = this;
 
-        return {
-            take: function take(number) {
-                return me.chain(me.take.call(this.take, arrayInput, number) );
-            },
+        var wrapChain = function (callback) {
 
+            return me.chain(me.callback.call(callback, arrayInput, arguments[0]) );
+        };
+
+        return {
+            take: wrapChain(this.take),
+            value: function value() {
+            return result;
+            }
+        };
+/*
             skip: function skip(number) {
                 return me.chain(me.skip.call(this.skip, arrayInput, number) );
             },
@@ -93,9 +100,6 @@ var arrayLibrary = {
                 return me.chain(me.reduce.call(this.filter, arrayInput, baseValue, callback) );
             },
 
-            value: function value() {
-                return result;
-            }
-        }
+*/   //     }
     }
 };
