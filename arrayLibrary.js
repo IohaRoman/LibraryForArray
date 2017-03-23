@@ -11,7 +11,8 @@
  * -//-//-//-//-
  * чтобы можно было сделать arrayLib.chain(arr).take(5).skip(3).map(function(x) {return x*5;}).value()
  * но и чтобы можно было сделать и как раньше, типа arrayLib.take(arr, 5)
- */
+ * wrapChain должен возвращать функцию, функцию, которая вернет колбэк, обернутый в чейн/
+**/
 
 var arrayLibrary = {
 
@@ -68,14 +69,16 @@ var arrayLibrary = {
         var result = arrayInput;
         var me = this;
 
-        var wrapChain = function (callback) {
+        function wrapChain (callback) {
 
-            return me.chain(me.callback.call(callback, arrayInput, arguments[0]) );
-        };
+            return function() {
+                return me.chain(callback.call(arguments.callee, arrayInput, arguments) );
+            }
+        }
 
         return {
             take: wrapChain(this.take),
-            value: function value() {
+            value: function value () {
             return result;
             }
         };
@@ -103,3 +106,5 @@ var arrayLibrary = {
 */   //     }
     }
 };
+
+arrayLibrary.chain([1, 2, 3 ,4]).take(3).value();
