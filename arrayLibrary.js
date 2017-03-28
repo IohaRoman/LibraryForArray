@@ -70,41 +70,21 @@ var arrayLibrary = {
         var me = this;
 
         function wrapChain (callback) {
-
             return function() {
-                return me.chain(callback.call(arguments.callee, arrayInput, arguments) );
+                return me.chain(callback.bind(this ,arrayInput, arguments[0])() );
             }
         }
 
         return {
             take: wrapChain(this.take),
+            skip: wrapChain(this.skip),
+            map: wrapChain(this.map),
+            foreach: wrapChain(this.foreach),
+            filter: wrapChain(this.filter),
+            reduce: wrapChain(this.reduce),
             value: function value () {
             return result;
             }
         };
-/*
-            skip: function skip(number) {
-                return me.chain(me.skip.call(this.skip, arrayInput, number) );
-            },
-
-            map: function map(callback) {
-                return me.chain(me.map.call(this.map, arrayInput, callback) );
-            },
-
-            forEach: function forEach(callback) {
-                return me.chain(me.forEach.call(this.forEach, callback) );
-            },
-
-            filter: function filter(callback) {
-                return me.chain(me.filter.call(this.filter, arrayInput, callback) );
-            },
-
-            reduce: function reduce(baseValue, callback) {
-                return me.chain(me.reduce.call(this.filter, arrayInput, baseValue, callback) );
-            },
-
-*/   //     }
     }
 };
-
-arrayLibrary.chain([1, 2, 3 ,4]).take(3).value();
