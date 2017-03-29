@@ -20,9 +20,9 @@ describe("Library testing methods (arrayLibrary.js)", function () {
     });
 
     it("maintaining the intermediate results (reduce)", function () {
-       expect(arrayLibrary.reduce([1, 2, 3, 4, 5], 0, function (previousValue, baseValue) {
+       expect(arrayLibrary.reduce([1, 2, 3, 4, 5], function (previousValue, baseValue) {
            return previousValue + baseValue;
-       })).toBeCloseTo(15);
+       }, 0)).toBeCloseTo(15);
     });
 
     it("result of chain with (chain.take)", function () {
@@ -42,8 +42,8 @@ describe("Library testing methods (arrayLibrary.js)", function () {
     it("result of chain with (chain.filter.reduce)", function () {
         expect(arrayLibrary.chain([1, 2, 3, 4, 5]).filter(function (x) {
             return x > 2;
-        }).reduce(0, function (previousValue, baseValue) {
+        }).reduce(function (previousValue, baseValue) {
             return previousValue + baseValue;
-        }).value()).toEqual(12);
+        }, 0).value()).toEqual(12);
     });
 });

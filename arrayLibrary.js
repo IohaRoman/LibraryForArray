@@ -54,7 +54,7 @@ var arrayLibrary = {
         return result;
     },
 
-    reduce: function (arrayInput, baseValue, callback) {
+    reduce: function (arrayInput, callback, baseValue) {
         var result;
 
         for (var i = 0; i < arrayInput.length; i++) {
@@ -66,12 +66,15 @@ var arrayLibrary = {
     },
 
     chain: function chain(arrayInput) {
-        var result = arrayInput;
+        var resultChain = arrayInput;
         var me = this;
 
         function wrapChain (callback) {
             return function() {
-                return me.chain(callback.bind(this ,arrayInput, arguments[0])() );
+                var arrayChain = Array.prototype.slice.call(arguments);
+                arrayChain.unshift(arrayInput);
+               
+                return me.chain(callback.apply(this, arrayChain) );
             }
         }
 
@@ -83,7 +86,7 @@ var arrayLibrary = {
             filter: wrapChain(this.filter),
             reduce: wrapChain(this.reduce),
             value: function value () {
-            return result;
+            return resultChain;
             }
         };
     }
