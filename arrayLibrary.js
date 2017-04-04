@@ -67,14 +67,12 @@ var arrayLibrary = {
 
     chain: function chain(arrayInput) {
         var resultChain = arrayInput;
-        var me = this;
+        chain = chain.bind(this);
 
         function wrapChain (callback) {
+            callback = callback.bind(null, resultChain);
             return function() {
-                var arrayChain = Array.prototype.slice.call(arguments);
-                arrayChain.unshift(arrayInput);
-               
-                return me.chain(callback.apply(this, arrayChain) );
+                return chain(callback.apply(null, arguments));
             }
         }
 
